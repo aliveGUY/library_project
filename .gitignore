@@ -1,2 +1,4 @@
 [Bb][Uu][Ii][Ll][Dd]/
-external/*
+external/
+asio/
+wxWidgets/

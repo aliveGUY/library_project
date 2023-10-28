@@ -127,7 +127,7 @@ public:
 bool MyApp::OnInit()
 {
     MyFrame *frame = new MyFrame();
-    frame->ConnectToServer("172.19.0.1", 60000);
+	frame->ConnectToServer("192.168.68.110", 60000);
     frame->Show(true);
     return true;
 }

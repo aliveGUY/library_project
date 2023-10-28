@@ -30,4 +30,4 @@ cmake -Bbuild . -G "MinGW Makefiles"
 cmake --build build
 `
 
-If you using Windows you should update your PATH environment variable to include the gcc_x64_dll folder at <u>path\to\project\build\external\wxWidgets\lib\gcc_x64_dll</u>
+If you using Windows you should update your PATH environment variable to include the gcc_x64_dll folder at <ins>path\to\project\build\external\wxWidgets\lib\gcc_x64_dll</ins>

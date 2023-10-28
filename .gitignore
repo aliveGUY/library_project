@@ -1,4 +1,3 @@
 [Bb][Uu][Ii][Ll][Dd]/
 external/
-asio/
-wxWidgets/
+.vscode/

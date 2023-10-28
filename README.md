@@ -1,8 +1,8 @@
 # Library MNTU Project
 
-This is uni group project. It uses crossplatform tools and libraries. 
+This is uni group project. It uses cross-platform tools and libraries. 
 
-**To install and setup the project run these commands:**
+**To install and set the project run these commands:**
 
 `
 git clone https://github.com/aliveGUY/library_project.git
@@ -29,3 +29,5 @@ cmake -Bbuild . -G "MinGW Makefiles"
 `
 cmake --build build
 `
+
+If you using Windows you should update your PATH environment variable to include the gcc_x64_dll folder at <u>path\to\project\build\external\wxWidgets\lib\gcc_x64_dll</u>

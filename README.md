@@ -8,6 +8,10 @@ This is uni group project. It uses cross-platform tools and libraries.
 git clone https://github.com/aliveGUY/library_project.git
 `
 
+ `
+ cd library_project
+ `
+
 `
 git submodule add -f https://github.com/chriskohlhoff/asio external/asio
 `

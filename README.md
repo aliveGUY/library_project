@@ -25,6 +25,7 @@ git submodule update --init --recursive
 `
 cmake -Bbuild . -G "MinGW Makefiles"
 `
+
 `
 cmake --build build
 `

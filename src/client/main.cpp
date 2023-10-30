@@ -1,7 +1,24 @@
-#include <wx/wx.h>
 #include "../bridge/olc_net.h"
 #include <chrono>
 #include <iostream>
+
+#include <wx/wx.h>
+#include <wx/wrapsizer.h>
+#include <wx/splitter.h>
+
+#include <string>
+#include <vector>
+
+#include "components/bookCard.h"
+#include "components/bookWrapper.h"
+
+#include "activites/dashboard.h"
+#include "activites/login.h"
+
+#include "state/state.h"
+#include "state/observer.h"
+
+using namespace std;
 
 enum class CustomMsgTypes : uint32_t
 {
@@ -12,47 +29,54 @@ enum class CustomMsgTypes : uint32_t
     ServerMessage,
 };
 
-class MyFrame : public wxFrame, public olc::net::client_interface<CustomMsgTypes>
+class MyFrame : public wxFrame, public Observer, public olc::net::client_interface<CustomMsgTypes>
 {
 public:
-    MyFrame();
+    MyFrame(const wxString &title, const wxPoint &pos, const wxSize &size);
 
 private:
     void OnPing(wxCommandEvent &event);
     void MessageAll(wxCommandEvent &event);
     void CheckForMessages();
-    void OnTimer(wxTimerEvent &event); // Timer event handler
+    void OnTimer(wxTimerEvent &event);
+    void SwitchPanel(string activity);
+    void Update();
 
     wxTimer messageTimer;
-    wxStaticText *pingText;
-    wxStaticText *messageText;
+
+private:
+    State state;
+    wxPanel *dasboard;
+    wxPanel *login;
 };
 
-MyFrame::MyFrame() : wxFrame(nullptr, wxID_ANY, "Hello World")
+MyFrame::MyFrame(const wxString &title, const wxPoint &pos, const wxSize &size)
+    : wxFrame(nullptr, wxID_ANY, title, pos, size), state()
 {
-    wxPanel *panel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
+
+    dasboard = new DashboardActivity(this, state);
+    login = new LoginActivity(this, &state);
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
-    sizer->Add(panel, 1, wxEXPAND | wxALL, 5);
+    sizer->Add(dasboard, 1, wxEXPAND | wxALL, 5);
+    sizer->Add(login, 1, wxEXPAND | wxALL, 5);
+    SetSizer(sizer);
 
-    wxButton *pingButton = new wxButton(panel, wxID_ANY, "Ping");
-    wxButton *messageButton = new wxButton(panel, wxID_ANY, "Message");
-    pingText = new wxStaticText(panel, wxID_ANY, "*empty*");
-    messageText = new wxStaticText(panel, wxID_ANY, "*empty*");
-    wxSizer *elemSizer = new wxBoxSizer(wxVERTICAL);
+    messageTimer.Bind(wxEVT_TIMER, &MyFrame::OnTimer, this);
+    messageTimer.Start(1000);
 
-    elemSizer->Add(pingButton, 0, wxALIGN_CENTER_HORIZONTAL);
-    elemSizer->Add(pingText, 0, wxALIGN_CENTER_HORIZONTAL, 0);
-    elemSizer->Add(messageButton, 0, wxALIGN_CENTER_HORIZONTAL);
-    elemSizer->Add(messageText, 0, wxALIGN_CENTER_HORIZONTAL, 0);
+    SwitchPanel("login");
+}
 
-    Connect(pingButton->GetId(), wxEVT_BUTTON, wxCommandEventHandler(MyFrame::OnPing));
-    Connect(messageButton->GetId(), wxEVT_BUTTON, wxCommandEventHandler(MyFrame::MessageAll));
+void MyFrame::SwitchPanel(string activity)
+{
+    dasboard->Show(activity == "dashboard");
+    login->Show(activity == "login");
 
-    panel->SetSizerAndFit(elemSizer);
-    this->SetSizerAndFit(sizer);
-
-    messageTimer.Bind(wxEVT_TIMER, &MyFrame::OnTimer, this); // Bind timer event to OnTimer method
-    messageTimer.Start(1000);                                // Adjust the interval as needed                            // Start the timer (adjust the interval as needed)
+    Layout();
+}
+void MyFrame::Update()
+{
+    SwitchPanel(state.GetActivity());
 }
 
 void MyFrame::OnPing(wxCommandEvent &event)
@@ -100,8 +124,6 @@ void MyFrame::CheckForMessages()
             std::chrono::system_clock::time_point timeThen;
             msg >> timeThen;
             std::cout << "Ping: " << std::chrono::duration<double>(timeNow - timeThen).count() << "\n";
-
-            pingText->SetLabel(std::to_string(std::chrono::duration<double>(timeNow - timeThen).count()));
         }
         break;
 
@@ -111,7 +133,6 @@ void MyFrame::CheckForMessages()
             uint32_t clientID;
             msg >> clientID;
             std::cout << "Hello from [" << clientID << "]\n";
-            messageText->SetLabel("Hello from [" + std::to_string(clientID) + "]");
         }
         break;
         }
@@ -126,8 +147,8 @@ public:
 
 bool MyApp::OnInit()
 {
-    MyFrame *frame = new MyFrame();
-	frame->ConnectToServer("192.168.68.110", 60000);
+    MyFrame *frame = new MyFrame("Hello World", wxDefaultPosition, wxDefaultSize);
+    frame->ConnectToServer("192.168.68.110", 60000);
     frame->Show(true);
     return true;
 }

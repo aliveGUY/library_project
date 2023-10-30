@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 #include <vector>
 #include <string>
 
@@ -13,17 +15,12 @@ class State
 public:
     State();
     string GetActivity();
-    void SetActivity(const string &activity);
     std::vector<Book> GetData();
-    Observer *observer;
-
-public:
-    void RegisterObserver(Observer *o)
-    {
-        observer = o;
-    }
+    void SetActivity(string activity);
+    void RegisterObserver(Observer *o);
 
 private:
+    Observer *observer;
     string currentActivity;
     std::vector<Book> currentData;
 };
@@ -55,8 +52,13 @@ string State::GetActivity()
     return currentActivity;
 }
 
-void State::SetActivity(const string &activity)
+void State::RegisterObserver(Observer *o)
+{
+    observer = o;
+}
+
+void State::SetActivity(string activity)
 {
     currentActivity = activity;
-    observer->Update();
+    observer->UpdateActivity(currentActivity);
 }

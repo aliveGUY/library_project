@@ -3,5 +3,5 @@
 class Observer
 {
 public:
-    virtual void Update() = 0;
+    virtual void UpdateActivity(string activity) = 0;
 };

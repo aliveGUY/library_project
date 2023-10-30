@@ -8,6 +8,7 @@
 
 #include "../helpers/textOverflow.h"
 #include "book.h"
+#include "../state/state.h"
 
 class BookCard : public wxWindow
 {
@@ -17,9 +18,10 @@ private:
     std::string author;
 
     Book book;
+    State state;
 
 public:
-    BookCard(wxWindow *parent, wxWindowID id, const Book &book, const wxPoint &pos = wxDefaultPosition, const wxSize &size = wxDefaultSize);
+    BookCard(wxWindow *parent, State &state, wxWindowID id, const Book &book, const wxPoint &pos = wxDefaultPosition, const wxSize &size = wxDefaultSize);
 
     wxSize DoGetBestSize() const override
     {
@@ -29,10 +31,12 @@ public:
 private:
     void OnPaint(wxPaintEvent &event);
     void OnClick(wxMouseEvent &event);
+
+
 };
 
-BookCard::BookCard(wxWindow *parent, wxWindowID id, const Book &book, const wxPoint &pos, const wxSize &size)
-    : wxWindow(parent, id, pos, size), book(book)
+BookCard::BookCard(wxWindow *parent, State &state, wxWindowID id, const Book &book, const wxPoint &pos, const wxSize &size)
+    : wxWindow(parent, id, pos, size), book(book), state(state)
 {
 
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
@@ -78,5 +82,6 @@ void BookCard::OnPaint(wxPaintEvent &event)
 
 void BookCard::OnClick(wxMouseEvent &event)
 {
+    state.SetActivity("book preview");
     std::cout << color << "\n";
 }

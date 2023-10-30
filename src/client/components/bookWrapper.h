@@ -4,8 +4,9 @@
 
 #include "book.h"
 #include "bookCard.h"
+#include "../state/state.h"
 
-wxPanel *BookWrapper(wxWindow *parent, std::vector<Book> booksData)
+wxPanel *BookWrapper(wxWindow *parent, std::vector<Book> booksData, State &state)
 {
     auto controlsPanel = new wxScrolled<wxPanel>(parent, wxID_ANY);
     controlsPanel->SetScrollRate(0, 10);
@@ -18,7 +19,7 @@ wxPanel *BookWrapper(wxWindow *parent, std::vector<Book> booksData)
     auto colorPaneSizer = new wxWrapSizer(wxHORIZONTAL);
     for (const auto &book : booksData)
     {
-        auto colorPane = new BookCard(controlsPanel, wxID_ANY, book);
+        auto colorPane = new BookCard(controlsPanel, state, wxID_ANY, book);
         colorPaneSizer->Add(colorPane, 0, wxRIGHT | wxBOTTOM, 5);
     }
 

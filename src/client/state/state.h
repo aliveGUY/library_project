@@ -1,4 +1,5 @@
 #pragma once
+#include "../../bridge/olc_net.h"
 
 #include <iostream>
 
@@ -10,7 +11,16 @@
 
 using namespace std;
 
-class State
+enum class CustomMsgTypes : uint32_t
+{
+    ServerAccept,
+    ServerDeny,
+    ServerPing,
+    MessageAll,
+    ServerMessage,
+};
+
+class State : public olc::net::client_interface<CustomMsgTypes>
 {
 public:
     State();
@@ -27,17 +37,15 @@ private:
 
 State::State()
 {
-    currentActivity = "login";
-
     currentData = {
-        Book("Stock price Prediction a referential approach on how to", "Andrzej Sapkowski", wxColor("#fd7f6f")),
-        Book("Stock price Prediction a referential approach on how to", "Andrzej Sapkowski", wxColor("#7eb0d5")),
-        Book("Stock price Prediction a referential approach on how to", "Andrzej Sapkowski", wxColor("#b2e061")),
-        Book("Stock price Prediction a referential approach on how to", "Andrzej Sapkowski", wxColor("#bd7ebe")),
-        Book("Stock price Prediction a referential approach on how to", "Andrzej Sapkowski", wxColor("#ffb55a")),
-        Book("Stock price Prediction a referential approach on how to", "Andrzej Sapkowski", wxColor("#ffee65")),
-        Book("Stock price Prediction a referential approach on how to", "Andrzej Sapkowski", wxColor("#beb9db")),
-        Book("Stock price Prediction a referential approach on how to", "Andrzej Sapkowski", wxColor("#fdcce5")),
+        Book("Gone with the Wind", "Margaret Mitchell", wxColor("#fd7f6f")),
+        Book("Jane Eyre", "Charlotte Bronte", wxColor("#7eb0d5")),
+        Book("Pride and Prejudice", "Jane Austen", wxColor("#b2e061")),
+        Book("To Kill a Mockingbird", "Harper Lee", wxColor("#bd7ebe")),
+        Book("The Hobbit (The Lord of the Rings, #0)", "J.R.R. Tolkien", wxColor("#ffb55a")),
+        Book("Wuthering Heights", "Emily Bronte", wxColor("#ffee65")),
+        Book("Little Women", "Louisa May Alcott", wxColor("#beb9db")),
+        Book("A Tale of Two Cities", "Charles Dickens", wxColor("#fdcce5")),
         Book("Stock price Prediction a referential approach on how to", "Andrzej Sapkowski", wxColor("#8bd3c7")),
     };
 }

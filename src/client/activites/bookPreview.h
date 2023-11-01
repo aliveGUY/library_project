@@ -4,16 +4,16 @@
 class BookPreview : public wxPanel
 {
 public:
-    BookPreview(wxWindow *parent, State &state);
+    BookPreview(wxWindow *parent, State state);
 
 private:
     void Back(wxCommandEvent &event);
 
-private:
-    State state;
+private: 
+    State *state;
 };
 
-BookPreview::BookPreview(wxWindow *parent, State &state) : wxPanel(parent, wxID_ANY), state(state)
+BookPreview::BookPreview(wxWindow *parent, State state) : wxPanel(parent, wxID_ANY), state(state)
 {
     wxButton *switchButton = new wxButton(this, wxID_ANY, "Back to dashboard");
     switchButton->Bind(wxEVT_BUTTON, &BookPreview::Back, this);
@@ -25,5 +25,5 @@ BookPreview::BookPreview(wxWindow *parent, State &state) : wxPanel(parent, wxID_
 
 void BookPreview::Back(wxCommandEvent &event)
 {
-    state.SetActivity("dashboard");
+    state->SetActivity("dashboard");
 }

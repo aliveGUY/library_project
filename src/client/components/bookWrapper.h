@@ -6,7 +6,7 @@
 #include "bookCard.h"
 #include "../state/state.h"
 
-wxPanel *BookWrapper(wxWindow *parent, std::vector<Book> booksData, State &state)
+wxPanel *BookWrapper(wxWindow *parent, std::vector<Book> booksData, State *state)
 {
     auto controlsPanel = new wxScrolled<wxPanel>(parent, wxID_ANY);
     controlsPanel->SetScrollRate(0, 10);

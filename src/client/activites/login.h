@@ -19,7 +19,7 @@ public:
 private:
     void Login(wxCommandEvent& event)
     {
-        state->SetActivity("dashboard");
+        state->OnLogin();
     }
 
 private:

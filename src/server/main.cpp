@@ -1,5 +1,8 @@
 #include <iostream>
 #include "../bridge/olc_net.h"
+#include <string>
+
+using namespace std;
 
 enum class CustomMsgTypes : uint32_t
 {
@@ -8,6 +11,7 @@ enum class CustomMsgTypes : uint32_t
 	ServerPing,
 	MessageAll,
 	ServerMessage,
+	ClientLogin
 };
 
 class CustomServer : public olc::net::server_interface<CustomMsgTypes>
@@ -15,7 +19,6 @@ class CustomServer : public olc::net::server_interface<CustomMsgTypes>
 public:
 	CustomServer(uint16_t nPort) : olc::net::server_interface<CustomMsgTypes>(nPort)
 	{
-
 	}
 
 protected:
@@ -34,10 +37,18 @@ protected:
 	}
 
 	// Called when a message arrives
-	virtual void OnMessage(std::shared_ptr<olc::net::connection<CustomMsgTypes>> client, olc::net::message<CustomMsgTypes>& msg)
+	virtual void OnMessage(std::shared_ptr<olc::net::connection<CustomMsgTypes>> client, olc::net::message<CustomMsgTypes> &msg)
 	{
 		switch (msg.header.id)
 		{
+		case CustomMsgTypes::ClientLogin:
+		{
+			string body;
+			std::cout << msg << "\n";
+			client->Send(msg);
+		}
+		break;
+
 		case CustomMsgTypes::ServerPing:
 		{
 			std::cout << "[" << client->GetID() << "]: Server Ping\n";
@@ -56,7 +67,6 @@ protected:
 			msg.header.id = CustomMsgTypes::ServerMessage;
 			msg << client->GetID();
 			MessageAllClients(msg, client);
-
 		}
 		break;
 		}
@@ -65,15 +75,13 @@ protected:
 
 int main()
 {
-	CustomServer server(60000); 
+	CustomServer server(60000);
 	server.Start();
 
 	while (1)
 	{
 		server.Update(-1, true);
 	}
-	
-
 
 	return 0;
 }

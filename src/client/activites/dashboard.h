@@ -6,10 +6,10 @@
 class DashboardActivity : public wxPanel
 {
 public:
-    DashboardActivity(wxWindow *parent, State state)
+    DashboardActivity(wxWindow *parent, State *state)
         : wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize), state(state)
     {
-        // wxPanel *books = BookWrapper(this, state->GetData(), *state);
+        wxPanel *books = BookWrapper(this, state->GetData(), state);
         wxButton *switchButton = new wxButton(this, wxID_ANY, "Log out");
         switchButton->Bind(wxEVT_BUTTON, &DashboardActivity::LoginOut, this);
 

@@ -6,7 +6,7 @@
 class LoginActivity : public wxPanel
 {
 public:
-    LoginActivity(wxWindow *parent, State &state) : wxPanel(parent, wxID_ANY), state(state)
+    LoginActivity(wxWindow *parent, State *state) : wxPanel(parent, wxID_ANY), state(state)
     {
         wxButton *switchButton = new wxButton(this, wxID_ANY, "Login");
         switchButton->Bind(wxEVT_BUTTON, &LoginActivity::Login, this);
@@ -19,9 +19,9 @@ public:
 private:
     void Login(wxCommandEvent& event)
     {
-        state.SetActivity("dashboard");
+        state->OnLogin();
     }
 
 private:
-    State state;
+    State *state;
 };

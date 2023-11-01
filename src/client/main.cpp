@@ -9,9 +9,9 @@ public:
 
 bool MyApp::OnInit()
 {
-    State state;
+    State *state = new State;
     MainActivity *frame = new MainActivity(state, "Hello World", wxDefaultPosition, wxDefaultSize);
-    frame->ConnectToServer("192.168.68.110", 60000);
+    state->ConnectToServer("192.168.68.110", 60000);
     frame->Show(true);
     return true;
 }

@@ -48,8 +48,6 @@ void BookPreview::Back(wxCommandEvent &event)
 
 bool BookPreview::Show(bool show)
 {
-    std::cout << "show preview\n";
-
     if (state->bookIsSelected)
     {
         book = state->GetSelectedBook();

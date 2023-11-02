@@ -44,7 +44,6 @@ protected:
 		case CustomMsgTypes::ClientLogin:
 		{
 			string body;
-			std::cout << msg << "\n";
 			client->Send(msg);
 		}
 		break;

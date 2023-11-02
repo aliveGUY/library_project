@@ -11,7 +11,13 @@ bool MyApp::OnInit()
 {
     State *state = new State;
     MainActivity *frame = new MainActivity(state, "Hello World", wxDefaultPosition, wxDefaultSize);
-    state->ConnectToServer("192.168.68.110", 60000);
+    
+    // LocalHost
+    state->ConnectToServer("127.0.0.1", 60000);
+    
+    // Remote Server
+    // state->ConnectToServer("192.168.68.110", 60000);
+    
     frame->Show(true);
     return true;
 }

@@ -83,5 +83,4 @@ void BookCard::OnPaint(wxPaintEvent &event)
 void BookCard::OnClick(wxMouseEvent &event)
 {
     state->SetActivity("book preview", &book);
-    std::cout << color << "\n";
 }

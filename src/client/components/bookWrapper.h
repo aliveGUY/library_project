@@ -17,7 +17,7 @@ wxPanel *BookWrapper(wxWindow *parent, std::vector<Book> booksData, State *state
     mainSizer->Add(text, 0, wxALL, 5);
 
     auto colorPaneSizer = new wxWrapSizer(wxHORIZONTAL);
-    for (const auto &book : booksData)
+    for (auto &book : booksData)
     {
         auto colorPane = new BookCard(controlsPanel, state, wxID_ANY, book);
         colorPaneSizer->Add(colorPane, 0, wxRIGHT | wxBOTTOM, 5);

@@ -25,18 +25,23 @@ class State : public olc::net::client_interface<CustomMsgTypes>
 {
 public:
     State();
-    string GetActivity();
-    std::vector<Book> GetData();
     void SetActivity(string activity);
     void SetActivity(string activity, Book *book);
     void RegisterObserver(Observer *o);
-
     void OnLogin();
+
+public:
+    string GetActivity();
+    std::vector<Book> GetData();
+    Book *GetSelectedBook();
 
 private:
     void OnPing(wxCommandEvent &event);
     void MessageAll(wxCommandEvent &event);
     void CheckForMessages(wxTimerEvent &event);
+
+public:
+    bool bookIsSelected = false;
 
 private:
     Observer *observer;
@@ -76,7 +81,13 @@ void State::SetActivity(string activity, Book *book)
 {
     currentActivity = activity;
     selectedBook = book;
+    bookIsSelected = true;
     observer->UpdateActivity(currentActivity);
+}
+
+Book *State::GetSelectedBook()
+{
+    return selectedBook;
 }
 
 std::vector<Book> State::GetData()

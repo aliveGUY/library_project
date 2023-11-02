@@ -10,12 +10,12 @@ public:
     Book(const string &title, const string &author, const wxColor &color)
         : title(title), author(author), color(color) {}
 
-    string GetTitle() const
+    string GetTitle()
     {
         return title;
     }
 
-    string GetAuthor() const
+    string GetAuthor()
     {
         return author;
     }

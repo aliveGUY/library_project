@@ -13,6 +13,7 @@
 #include "activites/dashboard.h"
 #include "activites/login.h"
 #include "activites/bookPreview.h"
+#include "activites/bookCart.h"
 
 #include "state/state.h"
 #include "state/observer.h"
@@ -33,6 +34,7 @@ private:
     wxPanel *login;
     DashboardActivity *dasboard;
     BookPreview *bookPreview;
+    BookCart *bookCart;
 };
 
 MainActivity::MainActivity(State *state, const wxString &title, const wxPoint &pos, const wxSize &size)
@@ -42,11 +44,13 @@ MainActivity::MainActivity(State *state, const wxString &title, const wxPoint &p
     dasboard = new DashboardActivity(this, state);
     login = new LoginActivity(this, state);
     bookPreview = new BookPreview(this, state);
+    bookCart = new BookCart(this, state);
 
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
     sizer->Add(dasboard, 1, wxEXPAND | wxALL, 5);
     sizer->Add(login, 1, wxEXPAND | wxALL, 5);
     sizer->Add(bookPreview, 1, wxEXPAND | wxALL, 5);
+    sizer->Add(bookCart, 1,wxEXPAND | wxALL, 5);
     SetSizer(sizer);
 
     state->SetActivity("login");
@@ -57,5 +61,6 @@ void MainActivity::UpdateActivity(string activity)
     dasboard->Show(activity == "dashboard");
     login->Show(activity == "login");
     bookPreview->Show(activity == "book preview");
+    bookCart->Show(activity == "book cart");
     Layout();
 }

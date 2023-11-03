@@ -20,6 +20,6 @@ bool MyApp::OnInit()
     
     frame->Show(true);
     return true;
-}
+} 
 
 wxIMPLEMENT_APP(MyApp);
